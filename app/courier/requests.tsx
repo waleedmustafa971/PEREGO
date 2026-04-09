@@ -8,6 +8,7 @@ import { useTripStore } from '@/stores/tripStore';
 import Header from '@/components/ui/Header';
 import { Card, Avatar } from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
+import EmptyState from '@/components/ui/EmptyState';
 
 export default function RequestsScreen() {
   const setSelectedRequest = useTripStore(s => s.setSelectedRequest);
@@ -20,7 +21,10 @@ export default function RequestsScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <Header title="Incoming Requests" />
-      <Text style={styles.count}>2 requests for your DXB → CAI trip (Apr 14)</Text>
+      <Text style={styles.count}>{mockIncomingRequests.length} requests for your DXB → CAI trip (Apr 14)</Text>
+      {mockIncomingRequests.length === 0 ? (
+        <EmptyState icon="📬" title="No requests yet" subtitle="When senders match your trip, their requests will appear here." />
+      ) : (
       <ScrollView style={styles.list} contentContainerStyle={{ paddingBottom: 30 }}>
         {mockIncomingRequests.map(r => (
           <Card key={r.id} style={styles.card}>
@@ -51,6 +55,7 @@ export default function RequestsScreen() {
           </Card>
         ))}
       </ScrollView>
+      )}
     </SafeAreaView>
   );
 }

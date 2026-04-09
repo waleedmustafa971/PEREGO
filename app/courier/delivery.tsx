@@ -158,7 +158,7 @@ export default function DeliveryScreen() {
               <Text style={styles.escrowText}>${net.toFixed(2)} will be transferred to your wallet within 24 hours.</Text>
             </View>
 
-            <Button title="Complete & Rate Sender" onPress={handleComplete} full />
+            <Button title="Complete & Rate Sender" onPress={() => router.push({ pathname: '/rating', params: { name: 'Youssef Ali', role: 'sender' } })} full />
           </>
         )}
       </ScrollView>

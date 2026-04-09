@@ -6,7 +6,9 @@ export default function ShipmentLayout() {
       <Stack.Screen name="create" />
       <Stack.Screen name="browse-travelers" />
       <Stack.Screen name="booking" />
+      <Stack.Screen name="payment" />
       <Stack.Screen name="tracking" />
+      <Stack.Screen name="history" />
     </Stack>
   );
 }

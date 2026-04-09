@@ -57,7 +57,7 @@ export default function BookingScreen() {
           </Text>
         </View>
 
-        <Button title="Pay & Book" onPress={() => router.push('/chat/conversation')} variant="orange" full />
+        <Button title="Continue to Payment" onPress={() => router.push('/shipment/payment')} variant="orange" full />
       </ScrollView>
     </SafeAreaView>
   );

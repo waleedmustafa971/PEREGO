@@ -38,6 +38,9 @@ export default function RootLayout() {
         <Stack.Screen name="shipment" />
         <Stack.Screen name="courier" />
         <Stack.Screen name="chat" />
+        <Stack.Screen name="profile" />
+        <Stack.Screen name="notifications" />
+        <Stack.Screen name="rating" />
       </Stack>
     </>
   );

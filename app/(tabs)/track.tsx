@@ -11,7 +11,7 @@ export default function TrackTab() {
     if (role === 'courier') {
       router.push('/courier/requests');
     } else {
-      router.push('/shipment/tracking');
+      router.push('/shipment/history');
     }
   }, [role]);
 

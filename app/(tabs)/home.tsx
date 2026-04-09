@@ -164,7 +164,7 @@ export default function HomeScreen() {
           {role === 'courier' ? (
             <Badge text="Verified" color={colors.green} />
           ) : (
-            <TouchableOpacity style={styles.bellBtn}>
+            <TouchableOpacity style={styles.bellBtn} onPress={() => router.push('/notifications')}>
               <Text style={{ fontSize: 20 }}>🔔</Text>
               <View style={styles.bellDot} />
             </TouchableOpacity>

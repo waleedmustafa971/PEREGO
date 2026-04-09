@@ -1,4 +1,7 @@
 node_modules/
+.claude/
+*.keystore
+package-lock.json
 .expo/
 dist/
 web-build/

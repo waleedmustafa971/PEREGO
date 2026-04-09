@@ -7,6 +7,7 @@ import { mockTravelers } from '@/lib/mockData';
 import { useShipmentStore } from '@/stores/shipmentStore';
 import Header from '@/components/ui/Header';
 import { Card, Avatar, Badge } from '@/components/ui/Card';
+import EmptyState from '@/components/ui/EmptyState';
 
 const filters = ['Best Match', 'Price ↑', 'Rating ↓', 'Soonest'];
 
@@ -31,6 +32,9 @@ export default function BrowseTravelers() {
         </View>
       </ScrollView>
       <Text style={styles.count}>{mockTravelers.length} travelers to Cairo, Apr 14-18</Text>
+      {mockTravelers.length === 0 ? (
+        <EmptyState icon="✈️" title="No travelers found" subtitle="No verified travelers are heading to this destination in your date range. Try adjusting your dates." />
+      ) : (
       <ScrollView style={styles.list} contentContainerStyle={{ paddingBottom: 30 }}>
         {mockTravelers.map(t => (
           <Card key={t.tripId} style={styles.card} onPress={() => handleSelect(t)}>
@@ -54,6 +58,7 @@ export default function BrowseTravelers() {
           </Card>
         ))}
       </ScrollView>
+      )}
     </SafeAreaView>
   );
 }
