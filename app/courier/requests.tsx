@@ -25,36 +25,34 @@ export default function RequestsScreen() {
       {mockIncomingRequests.length === 0 ? (
         <EmptyState icon="📬" title="No requests yet" subtitle="When senders match your trip, their requests will appear here." />
       ) : (
-      <ScrollView style={styles.list} contentContainerStyle={{ paddingBottom: 30 }}>
-        {mockIncomingRequests.map(r => (
-          <Card key={r.id} style={styles.card}>
-            <View style={styles.topRow}>
-              <Avatar color={r.senderAvatar} name={r.senderName} size={40} />
-              <View style={{ flex: 1 }}>
-                <View style={styles.nameRow}>
-                  <Text style={styles.name}>{r.senderName}</Text>
-                  <Text style={styles.price}>${r.price}</Text>
+        <ScrollView style={styles.list} contentContainerStyle={{ paddingBottom: 30 }}>
+          {mockIncomingRequests.map(r => (
+            <Card key={r.id} style={styles.card}>
+              <View style={styles.topRow}>
+                <Avatar color={r.senderAvatar} name={r.senderName} size={40} />
+                <View style={{ flex: 1 }}>
+                  <View style={styles.nameRow}>
+                    <Text style={styles.name}>{r.senderName}</Text>
+                    <Text style={styles.price}>${r.price}</Text>
+                  </View>
+                  <Text style={styles.rating}>⭐ {r.senderRating} ({r.senderReviews} reviews)</Text>
                 </View>
-                <Text style={styles.rating}>⭐ {r.senderRating} ({r.senderReviews} reviews)</Text>
               </View>
-            </View>
-
-            <View style={styles.detailBox}>
-              <View style={styles.detailRow}>
-                <View><Text style={styles.detailLabel}>Category</Text><Text style={styles.detailValue}>{r.category}</Text></View>
-                <View><Text style={styles.detailLabel}>Weight</Text><Text style={styles.detailValue}>{r.weightKg} kg</Text></View>
-                <View><Text style={styles.detailLabel}>Photo</Text><Text style={styles.detailValue}>{r.hasPhoto ? '✓ Attached' : 'None'}</Text></View>
+              <View style={styles.detailBox}>
+                <View style={styles.detailRow}>
+                  <View><Text style={styles.detailLabel}>Category</Text><Text style={styles.detailValue}>{r.category}</Text></View>
+                  <View><Text style={styles.detailLabel}>Weight</Text><Text style={styles.detailValue}>{r.weightKg} kg</Text></View>
+                  <View><Text style={styles.detailLabel}>Photo</Text><Text style={styles.detailValue}>{r.hasPhoto ? '✓ Attached' : 'None'}</Text></View>
+                </View>
+                <Text style={styles.desc}>{r.description}</Text>
               </View>
-              <Text style={styles.desc}>{r.description}</Text>
-            </View>
-
-            <View style={styles.actions}>
-              <View style={{ flex: 1 }}><Button title="Accept" onPress={() => handleAccept(r)} full small /></View>
-              <View style={{ flex: 1 }}><Button title="Decline" onPress={() => {}} variant="secondary" full small /></View>
-            </View>
-          </Card>
-        ))}
-      </ScrollView>
+              <View style={styles.actions}>
+                <View style={{ flex: 1 }}><Button title="Accept" onPress={() => handleAccept(r)} full small /></View>
+                <View style={{ flex: 1 }}><Button title="Decline" onPress={() => {}} variant="secondary" full small /></View>
+              </View>
+            </Card>
+          ))}
+        </ScrollView>
       )}
     </SafeAreaView>
   );

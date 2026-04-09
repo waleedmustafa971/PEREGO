@@ -38,7 +38,7 @@ export default function RegisterScreen() {
 
   const pickImage = async (key: keyof DocImages) => {
     const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      mediaTypes: ['images'],
       allowsEditing: true,
       quality: 0.8,
     });
