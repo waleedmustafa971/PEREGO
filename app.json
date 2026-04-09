@@ -1,0 +1,30 @@
+{
+  "expo": {
+    "name": "Perego",
+    "slug": "perego",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "perego",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "backgroundColor": "#1A6B5C",
+      "resizeMode": "contain"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.perego.app"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#1A6B5C"
+      },
+      "package": "com.perego.app"
+    },
+    "platforms": ["ios", "android", "web"],
+    "web": {
+      "bundler": "metro",
+      "output": "single"
+    },
+    "plugins": ["expo-router", "expo-font", "expo-image-picker"]
+  }
+}
