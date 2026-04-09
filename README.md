@@ -1,34 +1,19 @@
-# Perego — App Documentation
+# Perego — Peer-to-Peer Package Delivery
 
-> "Deliver with trust" — A peer-to-peer package delivery platform that connects senders with verified travelers flying to the same destination.
+> "Deliver with trust" — Connect senders with verified travelers flying to the same destination.
 
----
-
-## Table of Contents
-
-1. [Overview](#overview)
-2. [Core Concept](#core-concept)
-3. [Tech Stack](#tech-stack)
-4. [Project Structure](#project-structure)
-5. [User Roles](#user-roles)
-6. [Authentication & Verification](#authentication--verification)
-7. [Feature Flows](#feature-flows)
-   - [Sender Flow](#sender-flow)
-   - [Courier Flow](#courier-flow)
-8. [Screens Reference](#screens-reference)
-9. [Data Models](#data-models)
-10. [State Management](#state-management)
-11. [Trust & Safety](#trust--safety)
-12. [Payment & Escrow](#payment--escrow)
-13. [Design System](#design-system)
+[![Expo SDK](https://img.shields.io/badge/Expo-SDK%2055-000020?logo=expo)](https://expo.dev)
+[![React Native](https://img.shields.io/badge/React%20Native-0.79-61dafb?logo=react)](https://reactnative.dev)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178c6?logo=typescript)](https://typescriptlang.org)
+[![Platform](https://img.shields.io/badge/Platform-Android%20%7C%20iOS%20%7C%20Web-green)](.)
 
 ---
 
-## Overview
+## What is Perego?
 
-Perego is a React Native mobile app (iOS, Android, Web) built with Expo SDK 55. It enables people to ship personal items through real travelers — cheaper and faster than traditional couriers — built on a trust and verification layer.
+Perego is a React Native mobile app (iOS, Android, Web) built with Expo SDK 55. It formalizes the common practice of travelers carrying packages for others — making it safe, tracked, and financially protected. A sender pays far less than a courier company. A traveler earns money on a trip they're already taking. Both parties are ID-verified, rated, and protected by escrow payments.
 
-The primary target market is the Arab diaspora corridor (UAE → Egypt, Jordan, Sudan, Turkey), where personal packages are commonly carried by travelers. Perego formalizes and secures this informal practice.
+**Primary market:** UAE → Egypt, Jordan, Sudan, Turkey corridor.
 
 ---
 
@@ -160,12 +145,13 @@ Every user can operate in both roles and switch freely from their profile. The U
 - OTP sent to phone → 4-digit code entry with custom box UI
 - On verify → user is logged in and sent to `/(tabs)/home`
 
-### Registration — 3 Steps
+### Registration — 4 Steps
 | Step | Content |
 |---|---|
-| 1 — Basic Info | Full name, email, phone, upload National ID (front & back), upload Passport |
-| 2 — Selfie Verification | Live selfie for ID matching — no sunglasses, well-lit |
-| 3 — Submitted | Documents under 24-hour review; user receives notification when verified |
+| 1 — Basic Info | Full name, email, phone |
+| 2 — Documents | Upload National ID (front & back) + Passport with thumbnail previews and green checkmark overlays |
+| 3 — Face Match | Live selfie captured with camera, side-by-side comparison against ID photo, AI confidence score (80–97%), match/no-match result with retry flow |
+| 4 — Done | Verification submitted — 24-hour review notice with confidence score summary |
 
 ### Verification Status
 Users carry a `verificationStatus`: `pending` / `verified` / `rejected`. Verified users get a green "Verified" badge displayed throughout the app. Couriers must be verified before delivering.
@@ -267,21 +253,30 @@ Quick access to list a new trip and view incoming requests.
 | `/` | Splash / Entry | Both |
 | `/auth/welcome` | Welcome landing | Guest |
 | `/auth/login` | Phone + OTP login | Guest |
-| `/auth/register` | 3-step registration | Guest |
+| `/auth/register` | 4-step registration with face match | Guest |
 | `/(tabs)/home` | Role-aware dashboard | Both |
-| `/(tabs)/ship` | Redirect (create shipment or trip) | Both |
-| `/(tabs)/track` | Redirect (tracking or requests) | Both |
-| `/(tabs)/profile` | Profile, stats, role switcher | Both |
+| `/(tabs)/ship` | Send/courier quick actions (inline) | Both |
+| `/(tabs)/track` | Shipments or incoming requests (inline) | Both |
+| `/(tabs)/messages` | Chat inbox with unread badges (inline) | Both |
+| `/(tabs)/profile` | Settings-style profile + role switcher | Both |
 | `/shipment/create` | New shipment wizard | Sender |
 | `/shipment/browse-travelers` | Available traveler list | Sender |
-| `/shipment/booking` | Booking confirmation + payment | Sender |
+| `/shipment/booking` | Booking confirmation | Sender |
+| `/shipment/payment` | Saved cards, wallet, new card form | Sender |
 | `/shipment/tracking` | Live shipment timeline | Sender |
+| `/shipment/history` | Active + past shipments | Sender |
 | `/courier/create-trip` | New trip listing form | Courier |
+| `/courier/my-trips` | Active trip management | Courier |
 | `/courier/requests` | Incoming shipment requests | Courier |
 | `/courier/pickup` | Pickup coordination | Courier |
 | `/courier/status` | Delivery milestone updater | Courier |
-| `/courier/delivery` | Final delivery confirmation | Courier |
+| `/courier/delivery` | Final delivery + PIN confirmation | Courier |
 | `/chat/conversation` | In-app messaging | Both |
+| `/notifications` | Notification center | Both |
+| `/rating` | Post-delivery rating | Both |
+| `/profile/edit` | Edit profile info | Both |
+| `/profile/payment-methods` | Wallet + saved cards | Both |
+| `/profile/notification-settings` | Per-category notification toggles | Both |
 
 ---
 
@@ -471,3 +466,46 @@ The platform explicitly prohibits:
 | Dubai → Istanbul | 18 |
 | Abu Dhabi → Amman | 12 |
 | Dubai → Khartoum | 8 |
+
+---
+
+## Running the App
+
+### Development (Expo Go)
+```bash
+npm install --legacy-peer-deps
+npx expo start
+```
+Scan the QR code with Expo Go, or press `a` for Android emulator / `i` for iOS simulator.
+
+### Standalone APK — test on any Android device
+
+Uses [EAS Build](https://docs.expo.dev/build/introduction/) to build in the cloud. No local Android SDK required.
+
+```bash
+# 1. Install EAS CLI
+npm install -g eas-cli
+
+# 2. Log in to your Expo account (free)
+eas login
+
+# 3. Link the project (first time only)
+eas init
+
+# 4. Build a preview APK
+eas build --platform android --profile preview
+```
+
+After ~5–10 minutes EAS gives you a **download link** for the `.apk`. Share it with any Android phone — install directly (enable "Install from unknown sources" in settings).
+
+### Production (Google Play Store)
+```bash
+eas build --platform android --profile production
+```
+Produces a signed `.aab` ready for Play Store submission.
+
+### iOS
+```bash
+eas build --platform ios --profile preview
+```
+Requires an Apple Developer account ($99/year).
