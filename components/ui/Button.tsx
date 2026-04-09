@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, Text, StyleSheet, ViewStyle } from 'react-native';
+import { TouchableOpacity, Text, StyleSheet, ViewStyle, Platform } from 'react-native';
 import { colors, radius, fonts } from '@/lib/theme';
 
 type Variant = 'primary' | 'secondary' | 'orange' | 'ghost' | 'danger';
@@ -24,15 +24,19 @@ const variantStyles: Record<Variant, { bg: string; text: string; border?: string
 
 export default function Button({ title, onPress, variant = 'primary', full, small, disabled, style }: ButtonProps) {
   const v = variantStyles[variant];
+  const isSolid = variant !== 'ghost' && variant !== 'secondary';
+
   return (
     <TouchableOpacity
       onPress={onPress}
       disabled={disabled}
-      activeOpacity={0.8}
+      activeOpacity={0.78}
       style={[
         styles.base,
         { backgroundColor: v.bg },
         v.border ? { borderWidth: 1.5, borderColor: v.border } : undefined,
+        isSolid && !disabled && styles.shadow,
+        isSolid && !disabled && { shadowColor: v.bg },
         small && styles.small,
         full && styles.full,
         disabled && styles.disabled,
@@ -46,15 +50,28 @@ export default function Button({ title, onPress, variant = 'primary', full, smal
 
 const styles = StyleSheet.create({
   base: {
-    paddingVertical: 14,
+    paddingVertical: 15,
     paddingHorizontal: 24,
     borderRadius: radius.lg,
     alignItems: 'center',
     justifyContent: 'center',
   },
+  shadow: {
+    ...Platform.select({
+      ios: {
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.25,
+        shadowRadius: 8,
+      },
+      android: {
+        elevation: 4,
+      },
+    }),
+  },
   small: {
-    paddingVertical: 8,
+    paddingVertical: 9,
     paddingHorizontal: 16,
+    borderRadius: radius.md,
   },
   full: {
     width: '100%',
@@ -65,6 +82,7 @@ const styles = StyleSheet.create({
   text: {
     fontFamily: fonts.bodyBold,
     fontSize: 15,
+    letterSpacing: 0.2,
   },
   smallText: {
     fontSize: 13,

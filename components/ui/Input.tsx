@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
 import { colors, radius, fonts, fontSize } from '@/lib/theme';
 
@@ -14,11 +14,27 @@ interface InputProps {
   multiline?: boolean;
 }
 
-export default function Input({ label, value, placeholder, onChangeText, icon, editable = true, keyboardType, secureTextEntry, multiline }: InputProps) {
+export default function Input({
+  label,
+  value,
+  placeholder,
+  onChangeText,
+  icon,
+  editable = true,
+  keyboardType,
+  secureTextEntry,
+  multiline,
+}: InputProps) {
+  const [focused, setFocused] = useState(false);
+
   return (
     <View style={styles.container}>
       {label && <Text style={styles.label}>{label}</Text>}
-      <View style={styles.inputWrap}>
+      <View style={[
+        styles.inputWrap,
+        focused && styles.inputWrapFocused,
+        !editable && styles.inputWrapDisabled,
+      ]}>
         {icon && <Text style={styles.icon}>{icon}</Text>}
         <TextInput
           value={value}
@@ -28,8 +44,14 @@ export default function Input({ label, value, placeholder, onChangeText, icon, e
           keyboardType={keyboardType}
           secureTextEntry={secureTextEntry}
           multiline={multiline}
-          placeholderTextColor={colors.gray400}
-          style={[styles.input, multiline && { minHeight: 80, textAlignVertical: 'top' }]}
+          placeholderTextColor={colors.gray300}
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
+          style={[
+            styles.input,
+            multiline && { minHeight: 80, textAlignVertical: 'top' },
+            !editable && { color: colors.gray500 },
+          ]}
         />
       </View>
     </View>
@@ -38,15 +60,15 @@ export default function Input({ label, value, placeholder, onChangeText, icon, e
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 14,
+    marginBottom: 16,
   },
   label: {
-    fontSize: fontSize.xs + 1,
+    fontSize: 11,
     fontFamily: fonts.bodySemiBold,
     textTransform: 'uppercase',
-    letterSpacing: 1.5,
-    color: colors.gray400,
-    marginBottom: 6,
+    letterSpacing: 1.2,
+    color: colors.gray500,
+    marginBottom: 7,
   },
   inputWrap: {
     flexDirection: 'row',
@@ -54,18 +76,26 @@ const styles = StyleSheet.create({
     backgroundColor: colors.gray100,
     borderRadius: radius.md,
     paddingHorizontal: 14,
-    paddingVertical: 12,
-    gap: 8,
+    paddingVertical: 13,
+    gap: 10,
     borderWidth: 1.5,
     borderColor: 'transparent',
   },
+  inputWrapFocused: {
+    borderColor: colors.teal,
+    backgroundColor: colors.white,
+  },
+  inputWrapDisabled: {
+    opacity: 0.65,
+  },
   icon: {
-    fontSize: 16,
+    fontSize: 15,
   },
   input: {
     flex: 1,
     fontSize: fontSize.md,
     fontFamily: fonts.body,
     color: colors.night,
+    padding: 0,
   },
 });
